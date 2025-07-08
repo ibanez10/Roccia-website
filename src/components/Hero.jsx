@@ -39,7 +39,7 @@ export default function HeroAndIntroducing() {
             className="mt-8 px-5 py-2 flex items-center gap-4 border border-white rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white hover:text-black transition"
           >
             <span className="text-base font-medium">Shop Now</span>
-            <span className="w-8 h-8 flex items-center justify-center rounded-full border border-red-700 text-red-700 hover:bg-red-700 hover:text-white transition">
+            <span className="w-8 h-8 flex items-center justify-center rounded-full border border-red-700 text-red-700 bg-white hover:bg-red-700 hover:text-white transition">
               <ArrowRightIcon className="w-5 h-5" />
             </span>
           </motion.button>
@@ -114,48 +114,6 @@ export default function HeroAndIntroducing() {
           ))}
         </div>
       </section>
-
-      {/* SUBSCRIBE SECTION */}
-      <section className="relative bg-red-800 text-white px-6 py-10 overflow-hidden">
-        <div className="relative z-10 max-w-full mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="max-w-xl">
-            <h2 className="text-2xl md:text-3xl font-semibold mb-2">
-              Ready to furnish your space with Roccia?
-            </h2>
-            <p className="text-sm text-white/90">
-              Subscribe, and be the first to know about new collections and exclusive offers.
-            </p>
-          </div>
-
-          <form className="flex w-full md:w-auto rounded-full overflow-hidden shadow-md border-gray-400 border-2">
-            <input
-              type="email"
-              placeholder="Email"
-              className="px-4 py-2 text-white outline-none w-full md:w-64 placeholder-white bg-white bg-opacity-20"
-            />
-            <button
-              type="submit"
-              className="bg-white bg-opacity-20 px-4 py-2 text-white flex items-center justify-center transition"
-            >
-              <ArrowRightIcon className="w-5 h-5" />
-            </button>
-          </form>
-        </div>
-      </section>
-
-{/* NEW BAWAH SECTION */}
-<section className="relative h-[200px] w-full">
-  <div className="absolute inset-0 bg-[url('/Bawah.png')] bg-cover bg-center bg-no-repeat z-0" />
-  <div className="absolute inset-0 bg-gradient-to-r from-red-900/80 via-red-900/50 to-transparent z-10" />
-  <div className="relative z-20 h-full flex items-start px-6 pt-6">
-    <img
-      src="/Roccia White.png"
-      alt="Logo Roccia"
-      className="h-[45%] w-auto"
-    />
-  </div>
-</section>
-
     </div>
   );
 }

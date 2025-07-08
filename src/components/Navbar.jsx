@@ -1,4 +1,11 @@
 import { Link } from "react-router-dom";
+
+const navLinks = [
+  { name: "Home", path: "/" },
+  { name: "Collection", path: "/collection" },
+  { name: "Products", path: "/product" },
+];
+
 export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-sm flex items-center justify-between px-6 py-4">
@@ -19,12 +26,16 @@ export default function Navbar() {
             />
           </svg>
         </button>
-        <Link to="/" className="hover:underline">Home</Link>
-        {["Home", "Collections", "Products"].map((link) => (
-          <a key={link} href="#" className="font-medium hover:underline">
-            {link}
-          </a>
-        ))}
+        {navLinks.map((link) => (
+        <Link
+          key={link.name}
+          to={link.path}
+          className="font-medium hover:underline"
+        >
+          {link.name}
+        </Link>
+      ))}
+  
       </div>
 
       {/* Tengah: Logo */}
