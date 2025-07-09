@@ -14,7 +14,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Hero />} />
             <Route path="/collection" element={<Collection />} />
-            {/* <Route path="/product/:slug" element={<ProductPage />} /> */}
+            <Route path="/product/:slug" element={<ProductPage />} />
           </Routes>
         </main>
         <Footer />

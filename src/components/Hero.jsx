@@ -1,13 +1,34 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import { ArrowUpRightIcon } from "@heroicons/react/24/outline";
+import Background from "/Background Home.jpg";
+import Chair from "/chair.jpg";
+import Table from "/table.jpg";
+import CrossLeg from "/Cross Leg.png";
+import DiamondEdge from "/Diamond Edge.png";
+import Pebble from "/Pebble.png";
+import Baloo from "/Baloo.png";
+import RociaWhite from "/Roccia White.png";
 
 export default function HeroAndIntroducing() {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className="overflow-hidden">
       {/* HERO SECTION */}
       <section className="relative w-full h-screen md:h-[90vh]">
         <img
-          src="/Background Home.jpg"
+          src={Background}
           alt="Hero Background"
           className="absolute inset-0 w-full h-full object-cover z-0"
         />
@@ -39,7 +60,7 @@ export default function HeroAndIntroducing() {
             className="mt-8 px-5 py-2 flex items-center gap-4 border border-white rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white hover:text-black transition"
           >
             <span className="text-base font-medium">Shop Now</span>
-            <span className="w-8 h-8 flex items-center justify-center rounded-full border border-red-700 text-red-700 bg-white hover:bg-red-700 hover:text-white transition">
+            <span className="w-8 h-8 flex items-center justify-center rounded-full border border-red-700 text-red-700 hover:bg-red-700 hover:text-white transition">
               <ArrowRightIcon className="w-5 h-5" />
             </span>
           </motion.button>
@@ -54,15 +75,15 @@ export default function HeroAndIntroducing() {
           <div className="w-12 h-px bg-gray-700 mx-2"></div>
         </div>
         <div className="flex flex-col md:flex-row items-center justify-between gap-10 max-w-screen-xl w-full">
-          <div className="flex-shrink-0 -translate-x-[28%] rounded-lg overflow-hidden w-[350px] h-[350px] bg-gray-200 -translate-y-24">
-            <img src="/chair.jpg" alt="chair" className="w-full h-full object-cover" />
+          <div className="hidden lg:flex flex-shrink-0 -translate-x-[28%] rounded-lg overflow-hidden w-[350px] h-[350px] bg-gray-200 -translate-y-24">
+            <img src={Chair} alt="chair" className="w-full h-full object-cover" />
           </div>
           <div className="flex-grow text-center max-w-xl relative">
-            <h1 className="text-5xl leading-tight font-normal text-gray-800 mb-5">
+            <h1 className="text-3xl lg:text-5xl leading-tight font-normal text-gray-800 mb-5 px-20 lg:px-0 text-justify lg:text-center">
               <span className="text-red-700 underline decoration-red-700 decoration-2 underline-offset-2">Beautifully</span>{" "}
               crafted concrete pieces for every space.
             </h1>
-            <p className="text-lg text-gray-600 leading-relaxed mb-8">
+            <p className="text-md lg:text-lg text-gray-600 leading-relaxed mb-8 px-10 lg:px-2 mx-10 flex text-justify lg:text-center max-w-[80%]">
               Roccia offers premium concrete furniture, thoughtfully designed to bring
               strength, beauty, and balance into any space — indoors or out.
             </p>
@@ -70,8 +91,8 @@ export default function HeroAndIntroducing() {
               Our Story <span className="text-xl">→</span>
             </button>
           </div>
-          <div className="flex-shrink-0 rounded-lg overflow-hidden w-[350px] h-[300px] translate-x-40 translate-y-10">
-            <img src="/table.jpg" alt="table" className="w-full h-full object-cover" />
+          <div className="hidden lg:flex flex-shrink-0 rounded-lg overflow-hidden w-[350px] h-[300px] translate-x-40 translate-y-10">
+            <img src={Table} alt="table" className="w-full h-full object-cover" />
           </div>
         </div>
       </section>
@@ -89,28 +110,33 @@ export default function HeroAndIntroducing() {
           </h3>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto px-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
           {[
-            { name: "Cross Leg", image: "/Cross Leg.png" },
-            { name: "Diamond Edge", image: "/Diamond Edge.png" },
-            { name: "Pebble", image: "/Pebble.png" },
-            { name: "Baloo", image: "/Baloo.png" },
+            { name: "Cross Leg", image: CrossLeg },
+            { name: "Diamond Edge", image: DiamondEdge },
+            { name: "Pebble", image: Pebble },
+            { name: "Baloo", image: Baloo },
           ].map((item, index) => (
-            <div
+            <motion.div
               key={index}
-              className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition"
+              initial={{ scale: 1 }}
+              whileHover={isDesktop ? { scale: 1.05 } : {}}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="relative overflow-hidden rounded-xl cursor-pointer group mx-2 my-2 lg:my-0 lg:mx-0"
             >
-              <div className="relative">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-full h-48 object-cover brightness-50 hover:brightness-100 transition duration-300"
-                />
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-full h-64 object-cover brightness-100 md:brightness-75 transition duration-300 group-hover:brightness-100"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+              <div className="absolute top-3 right-3 w-8 h-8 rounded-full border border-white flex items-center justify-center bg-white/10 backdrop-blur-sm hover:bg-white transition">
+                <ArrowUpRightIcon className="w-4 h-4 text-white hover:text-black" />
               </div>
-              <div className="p-4">
-                <h4 className="text-lg font-semibold text-gray-800">{item.name}</h4>
+              <div className="absolute bottom-4 left-4">
+                <h4 className="text-lg font-medium text-white">{item.name}</h4>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>

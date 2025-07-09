@@ -31,8 +31,15 @@ const collectionsRow4 = [
 export default function FeaturedCollections() {
   return (
     <div className="bg-white h-full px-4 pb-10 space-y-10">
-      <div className="w-full h-[50vh] overflow-hidden">
-        <img src="/Collection Bg.jpg" alt="" className="object-cover w-full h-full"/>
+      <div className="relative w-full h-[50vh] overflow-hidden">
+        <img
+          src="/Collection Bg.jpg"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="relative z-10 w-full h-full flex items-center justify-center">
+          <h1 className="text-5xl text-white font-semibold">Collection</h1>
+        </div>
       </div>
       <div className=" text-center mt-5">
       <div className="flex justify-center items-center mb-5">
