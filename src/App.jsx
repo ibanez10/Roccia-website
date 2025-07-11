@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Collection from "./components/colectionPage";
 import ProductPage from "./components/productPage";
+import OurStory from "./components/ourStory";
 import Footer from "./components/Footer";
 
 export default function App() {
@@ -14,7 +15,8 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Hero />} />
             <Route path="/collection" element={<Collection />} />
-            <Route path="/product/:slug" element={<ProductPage />} />
+            <Route path="/ourStory" element={<OurStory/>} />
+            {/* <Route path="/product/:slug" element={<ProductPage />} /> */}
           </Routes>
         </main>
         <Footer />

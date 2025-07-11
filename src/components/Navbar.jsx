@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "/Roccia text.png";
+import { path } from "framer-motion/client";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +12,11 @@ export default function Navbar() {
   { name: "Collection", path: "/collection" },
   { name: "Products", path: "/product" },
 ];
-  const navLinksRight = ["Catalogue", "Our Story", "Contact"];
+  const navLinksRight = [
+    {name : "Catalogue", path: "/catalogue"},
+    {name : "Our Story", path: "ourStory/"},
+    {name : "Contact", path: "/contact"}
+  ];
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-sm px-6 py-4">
@@ -92,9 +97,13 @@ export default function Navbar() {
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-6">
             {navLinksRight.map((link) => (
-              <a key={link} href="#" className="font-medium hover:underline">
-                {link}
-              </a>
+              <Link
+                      key={link.name}
+                      to={link.path}
+                      className="font-medium hover:underline"
+                    >
+                      {link.name}
+                    </Link>
             ))}
           </div>
 
@@ -157,14 +166,14 @@ export default function Navbar() {
               className="absolute top-full left-0 w-full bg-white/80 backdrop-blur-md rounded-md shadow-md border-t py-4 flex flex-col gap-4 md:hidden"
             >
               {[...navLinksLeft, ...navLinksRight].map((link) => (
-                <a
-                  key={link}
-                  href="#"
-                  onClick={() => setIsOpen(false)}
-                  className="block px-6 font-medium hover:underline"
-                >
-                  {link}
-                </a>
+                <Link
+                    key={link.name}
+                    to={link.path}
+                    onClick={() => setIsOpen(false)}
+                    className="block px-6 font-medium hover:underline"
+                  >
+                    {link.name}
+                </Link>
               ))}
             </motion.div>
           )}
