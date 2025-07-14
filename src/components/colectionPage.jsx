@@ -2,30 +2,30 @@ import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const collectionsRow1 = [
-  { title: "Archy Dining Set", img: "/Archi Dining Set.png" },
-  { title: "Archy Lounge Set", img: "/Archi Lounge Set.png" },
-  { title: "Atrani Balcony Set", img: "/Artani Balcony Set.png" },
-  { title: "Atrani Lounge Set", img: "/Atrani Lounge Set.png" },
+  { title: "Archy Dining Set", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243359/Archi_Dining_Set_ldc9y2.png" },
+  { title: "Archy Lounge Set", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243367/Archi_Lounge_Set_cfrmlh.png" },
+  { title: "Atrani Balcony Set", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243379/Artani_Balcony_Set_-_Copy_prjmvo.png" },
+  { title: "Atrani Lounge Set", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243393/Atrani_Lounge_Set_mpqnyz.png" },
 ];
 
 const collectionsRow2 = [
-  { title: "Baloo", img: "/Baloo.png" },
-  { title: "Baloo & Cuba Lounge Set", img: "/Baloo & Cuba Lounge Set.png", isWide: true },
-  { title: "Cross Leg", img: "/Cross Leg.png" },
+  { title: "Baloo", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243441/Baloo_gjquua.png" },
+  { title: "Cross Leg", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243489/Cross_Leg_vvsvdb.png" },
+  { title: "Baloo & Cuba Lounge Set", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243431/Baloo_Cuba_Lounge_Set_vippgx.png", isWide: true },
 ];
 
 const collectionsRow3 = [
-  { title: "Diamond Edge", img: "/Diamond Edge.png" },
-  { title: "Cuba Dining Set", img: "/Cuba Dinning set.png" },
-  { title: "Diamond Edge & Ovieado Dining Set", img: "/Diamond Edge & Ovieado Dinning Set.png", isTallWide: true },
-  { title: "Cross Leg & Cuba Dining Set", img: "/Cross Leg & Cuba Dinning Set.png", isFullWidth: true },
+  { title: "Diamond Edge", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243533/Diamond_Edge_gb5zce.png" },
+  { title: "Cuba Dining Set", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243503/Cuba_Dinning_Set_tt9o8w.png" },
+  { title: "Diamond Edge & Ovieado Dining Set", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243521/Diamond_Edge_Ovieado_Dinning_Set_pyhf2h.png", isTallWide: true },
+  { title: "Cross Leg & Cuba Dining Set", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243479/Cross_Leg_Cuba_Dinning_Set_jlz4ze.png", isFullWidth: true },
 ];
 
 const collectionsRow4 = [
-  { title: "Dove Tail Dining Set", img: "/Dove Tail Dinning Set.png" },
-  { title: "Montego Corner Set", img: "/Montego Corner Set.png" },
-  { title: "Ovieado Dining Set", img: "/Ovieado Dinning Set.png" },
-  { title: "Pattern Top", img: "/Patern Top.png" },
+  { title: "Dove Tail Dining Set", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243581/Dove_Tail_Dinning_Set_huw41m.png" },
+  { title: "Montego Corner Set", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243630/Montego_Corner_Set_omynyo.png" },
+  { title: "Ovieado Dining Set", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752244922/Ovieado_Dinning_Set_miskq7.png" },
+  { title: "Pattern Top", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243452/Bawah_xwf6kc.png" },
 ];
 
 export default function FeaturedCollections() {
@@ -65,7 +65,7 @@ export default function FeaturedCollections() {
         </div>
 
         {/* Row 2 */}
-        <div className="flex justify-center gap-4 md:gap-6 flex-wrap">
+        <div className="flex justify-center gap-4 md:gap-6 flex-wrap-reverse">
           {collectionsRow2.map((item, index) => (
             <Card
               key={index}

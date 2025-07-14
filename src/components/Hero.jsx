@@ -2,14 +2,6 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { ArrowUpRightIcon } from "@heroicons/react/24/outline";
-import Background from "/Background Home.jpg";
-import Chair from "/chair.jpg";
-import Table from "/table.jpg";
-import CrossLeg from "/Cross Leg.png";
-import DiamondEdge from "/Diamond Edge.png";
-import Pebble from "/Pebble.png";
-import Baloo from "/Baloo.png";
-import RociaWhite from "/Roccia White.png";
 
 export default function HeroAndIntroducing() {
   const [isDesktop, setIsDesktop] = useState(false);
@@ -28,7 +20,7 @@ export default function HeroAndIntroducing() {
       {/* HERO SECTION */}
       <section className="relative w-full h-screen md:h-[90vh]">
         <img
-          src={Background}
+          src="https://res.cloudinary.com/dpswqafiq/image/upload/v1752243706/Sofa_fj82pl.jpg"
           alt="Hero Background"
           className="absolute inset-0 w-full h-full object-cover z-0"
         />
@@ -76,7 +68,7 @@ export default function HeroAndIntroducing() {
         </div>
         <div className="flex flex-col md:flex-row items-center justify-between gap-10 max-w-screen-xl w-full">
           <div className="hidden lg:flex flex-shrink-0 -translate-x-[28%] rounded-lg overflow-hidden w-[350px] h-[350px] bg-gray-200 -translate-y-24">
-            <img src={Chair} alt="chair" className="w-full h-full object-cover" />
+            <img src="https://res.cloudinary.com/dpswqafiq/image/upload/v1752243680/chair_r9h0it.jpg" alt="chair" className="w-full h-full object-cover" />
           </div>
           <div className="flex-grow text-center max-w-xl relative">
             <h1 className="text-3xl lg:text-5xl leading-tight font-normal text-gray-800 mb-5 px-20 lg:px-0 text-justify lg:text-center">
@@ -92,7 +84,7 @@ export default function HeroAndIntroducing() {
             </button>
           </div>
           <div className="hidden lg:flex flex-shrink-0 rounded-lg overflow-hidden w-[350px] h-[300px] translate-x-40 translate-y-10">
-            <img src={Table} alt="table" className="w-full h-full object-cover" />
+            <img src="https://res.cloudinary.com/dpswqafiq/image/upload/v1752243689/table_aexwqf.jpg" alt="table" className="w-full h-full object-cover" />
           </div>
         </div>
       </section>
@@ -112,10 +104,10 @@ export default function HeroAndIntroducing() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
           {[
-            { name: "Cross Leg", image: CrossLeg },
-            { name: "Diamond Edge", image: DiamondEdge },
-            { name: "Pebble", image: Pebble },
-            { name: "Baloo", image: Baloo },
+            { name: "Cross Leg", image: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243489/Cross_Leg_vvsvdb.png" },
+            { name: "Diamond Edge", image: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243533/Diamond_Edge_gb5zce.png"},
+            { name: "Pebble", image: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243615/Pebble_zevqm8.png" },
+            { name: "Baloo", image: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243441/Baloo_gjquua.png" },
           ].map((item, index) => (
             <motion.div
               key={index}

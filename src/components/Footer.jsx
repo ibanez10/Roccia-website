@@ -33,7 +33,7 @@ export default function Footer() {
 
       {/* BAWAH SECTION */}
 <section className="relative h-[250px] w-full">
-  <div className="absolute inset-0 bg-[url('/Bawah.png')] bg-cover bg-center bg-no-repeat z-0" />
+  <div className="absolute inset-0 bg-[url(https://res.cloudinary.com/dpswqafiq/image/upload/v1752243452/Bawah_xwf6kc.png)] bg-cover bg-center bg-no-repeat z-0" />
   <div className="absolute inset-0 bg-gradient-to-r from-red-900/80 via-red-900/50 to-transparent z-10" />
   <div className="relative z-20 h-full flex items-start px-6 pt-6">
     <img
