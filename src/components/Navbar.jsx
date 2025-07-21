@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../components/CartContext";
+import axios from "axios";
 import Logo from "/Roccia text.png";
 
 export default function Navbar() {
@@ -17,6 +18,36 @@ export default function Navbar() {
   } = useCart();
 
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
+  const handleCheckout = async () => {
+    try {
+      const orderId = `ORDER-${Date.now()}`;
+
+      const response = await axios.post("http://localhost:5000/create-transaction", {
+        orderId,
+        grossAmount: Number(total),
+        customerDetails: {
+          first_name: "Customer",
+        },
+      });
+
+      const { token } = response.data;
+
+      if (window.snap) {
+        window.snap.pay(token, {
+          onSuccess: () => alert("Pembayaran berhasil"),
+          onPending: () => alert("Pembayaran pending" ),
+          onError: () => alert("Pembayaran gagal"),
+          onClose: () => alert("Kamu menutup popup pembayaran."),
+        });
+      } else {
+        alert("Snap belum dimuat.");
+      }
+    } catch (error) {
+      console.error("Error during checkout:", error);
+      alert("Gagal membuat transaksi.");
+    }
+  };
 
   const navLinksLeft = [
     { name: "Home", path: "/" },
@@ -35,26 +66,35 @@ export default function Navbar() {
         {/* Kiri */}
         <div className="flex-1 flex items-center gap-6">
           {/* Hamburger Menu */}
-          <button
-            className="md:hidden flex flex-col justify-center items-center w-6 h-6 z-50"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <motion.span
-              animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 3 : -4 }}
-              className="block w-6 h-0.5 bg-black origin-center"
-              transition={{ duration: 0.3 }}
-            />
-            <motion.span
-              animate={{ opacity: isOpen ? 0 : 1 }}
-              className="block w-6 h-0.5 bg-black origin-center"
-              transition={{ duration: 0.3 }}
-            />
-            <motion.span
-              animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? -3 : 4 }}
-              className="block w-6 h-0.5 bg-black origin-center"
-              transition={{ duration: 0.3 }}
-            />
-          </button>
+          <div className="md:hidden relative z-50">
+              <button
+                className="flex flex-col justify-center items-center w-6 h-6"
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                <motion.span
+                  animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 3 : -4 }}
+                  className="block w-6 h-0.5 bg-black origin-center"
+                  transition={{ duration: 0.3 }}
+                />
+                <motion.span
+                  animate={{ opacity: isOpen ? 0 : 1 }}
+                  className="block w-6 h-0.5 bg-black origin-center"
+                  transition={{ duration: 0.3 }}
+                />
+                <motion.span
+                  animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? -3 : 4 }}
+                  className="block w-6 h-0.5 bg-black origin-center"
+                  transition={{ duration: 0.3 }}
+                />
+              </button>
+
+              {/* Notifikasi jumlah item di cart */}
+              {totalQuantity > 0 && (
+                <span className="absolute -top-1 -right-[6px] bg-red-600 text-white text-xs w-2 h-2 rounded-full flex items-center justify-center">
+                  
+                </span>
+              )}
+            </div>
 
           {/* Desktop Left Links */}
           <div className="hidden md:flex items-center gap-6">
@@ -205,7 +245,7 @@ export default function Navbar() {
                         <img src={item.img} alt={item.title} className="w-16 h-16 object-contain rounded" />
                         <div className="flex-1">
                           <p className="font-semibold">{item.title}</p>
-                          <p className="text-sm text-gray-600">{item.price}</p>
+                          <p className="text-sm text-gray-600">Rp. {item.price.toLocaleString('id-ID')}</p>
                           <div className="flex items-center gap-2 mt-1">
                             <button onClick={() => decreaseQty(item.slug)} className="px-2 py-0.5 border rounded">-</button>
                             <span>{item.quantity}</span>
@@ -217,7 +257,10 @@ export default function Navbar() {
                     ))}
                     <div className="pt-4 border-t">
                       <p className="font-semibold">Total: Rp{total.toLocaleString("id-ID")}</p>
-                      <button className="w-full mt-2 bg-red-800 text-white py-2 rounded-full hover:bg-red-700 transition">
+                      <button
+                        onClick={handleCheckout}
+                        className="w-full mt-2 bg-red-800 text-white py-2 rounded-full hover:bg-red-700 transition"
+                      >
                         Checkout
                       </button>
                     </div>

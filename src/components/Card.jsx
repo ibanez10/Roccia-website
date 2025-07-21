@@ -4,6 +4,8 @@ import { useCart } from "./CartContext";
 export default function Card({ title, img, price, slug }) {
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const formattedPrice = price.toLocaleString('id-ID'); 
+
 
   const item = { title, img, price, slug };
 
@@ -33,7 +35,7 @@ export default function Card({ title, img, price, slug }) {
           <p className="text-sm border border-red-700 rounded-full px-5 py-0.5 text-red-700">
             Table
           </p>
-          <p className="text-md font-semibold text-gray-800">{price}</p>
+          <p className="text-md font-semibold text-gray-800">Rp. {item.price.toLocaleString('id-ID')}</p>
         </div>
 
         <button
