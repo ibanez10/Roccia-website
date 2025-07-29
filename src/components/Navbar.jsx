@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../components/CartContext";
 import axios from "axios";
@@ -8,6 +9,7 @@ import Logo from "/Roccia text.png";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [showCart, setShowCart] = useState(false);
+  const navigate = useNavigate();
 
   const {
     cartItems,
@@ -18,36 +20,6 @@ export default function Navbar() {
   } = useCart();
 
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-
-  const handleCheckout = async () => {
-    try {
-      const orderId = `ORDER-${Date.now()}`;
-
-      const response = await axios.post("http://localhost:5000/create-transaction", {
-        orderId,
-        grossAmount: Number(total),
-        customerDetails: {
-          first_name: "Customer",
-        },
-      });
-
-      const { token } = response.data;
-
-      if (window.snap) {
-        window.snap.pay(token, {
-          onSuccess: () => alert("Pembayaran berhasil"),
-          onPending: () => alert("Pembayaran pending" ),
-          onError: () => alert("Pembayaran gagal"),
-          onClose: () => alert("Kamu menutup popup pembayaran."),
-        });
-      } else {
-        alert("Snap belum dimuat.");
-      }
-    } catch (error) {
-      console.error("Error during checkout:", error);
-      alert("Gagal membuat transaksi.");
-    }
-  };
 
   const navLinksLeft = [
     { name: "Home", path: "/" },
@@ -258,7 +230,7 @@ export default function Navbar() {
                     <div className="pt-4 border-t">
                       <p className="font-semibold">Total: Rp{total.toLocaleString("id-ID")}</p>
                       <button
-                        onClick={handleCheckout}
+                        onClick={() => {navigate('/checkoutPage'), setShowCart(false)}} 
                         className="w-full mt-2 bg-red-800 text-white py-2 rounded-full hover:bg-red-700 transition"
                       >
                         Checkout

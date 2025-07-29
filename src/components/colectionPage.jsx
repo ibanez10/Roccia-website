@@ -28,6 +28,17 @@ const collectionsRow4 = [
   { title: "Pattern Top", img: "https://res.cloudinary.com/dpswqafiq/image/upload/v1752243452/Bawah_xwf6kc.png" },
 ];
 
+//  const [collections, setCollections] = useState([]);
+
+//  const BASE_URL = "http://localhost:3000"
+
+//   useEffect(() => {
+//     fetch(BASE_URL + '/api/collections') // ganti sesuai base URL API-mu
+//       .then((response) => response.json())
+//       .then((data) => setCollections(data.data)) // sesuai struktur: { data: [...] }
+//       .catch((error) => console.error('Error fetching collections:', error));
+//   }, []);
+
 export default function FeaturedCollections() {
   return (
     <div className="bg-white h-full px-4 pb-10 space-y-10">
