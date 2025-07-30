@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../components/CartContext';
 import axios from 'axios';
 
 const CheckoutPage = () => {
   const { cartItems, total, increaseQty, decreaseQty } = useCart();
   const [shippingCost, setShippingCost] = useState(0);
+  const [deliveryMethod, setDeliveryMethod] = useState('pickup'); // 'pickup' or 'ship'
+
   const [formData, setFormData] = useState({
     email: '',
     country: '',
@@ -113,17 +115,19 @@ const CheckoutPage = () => {
               <h1 className='text-base md:text-xl'>Subtotal</h1>
               <h1 className='text-base md:text-xl'>Rp.{total.toLocaleString('id-ID')}</h1>
             </div>
-            <div className='flex justify-between py-1'>
-              <h1 className='text-base md:text-xl'>Shipping</h1>
-              <h1 className='text-base md:text-xl'>
-                {shippingCost === 0 ? 'Free' : `Rp.${shippingCost.toLocaleString('id-ID')}`}
-              </h1>
-            </div>
+            {deliveryMethod === 'ship' && (
+              <div className='flex justify-between py-1'>
+                <h1 className='text-base md:text-xl'>Shipping</h1>
+                <h1 className='text-base md:text-xl'>
+                  {shippingCost === 0 ? 'Free' : `Rp.${shippingCost.toLocaleString('id-ID')}`}
+                </h1>
+              </div>
+            )}
             <hr className='border-red-500 my-3'/>
             <div className='flex justify-between py-1'>
               <h1 className='font-semibold text-base md:text-xl'>Total</h1>
               <h1 className='text-base md:text-xl font-semibold'>
-                Rp.{(total + shippingCost).toLocaleString('id-ID')}
+                Rp.{(total + (deliveryMethod === 'ship' ? shippingCost : 0)).toLocaleString('id-ID')}
               </h1>
             </div>
           </div>
@@ -148,8 +152,23 @@ const CheckoutPage = () => {
             <div className="mb-4">
               <h3 className="font-semibold mb-2 text-sm md:text-base">Delivery</h3>
               <div className="flex gap-2 flex-wrap">
-                <button className="border border-red-500 px-4 py-2 rounded cursor-pointer">Ship</button>
-                <button className="bg-red-100 text-red-700 border border-red-500 px-4 py-2 rounded cursor-pointer">Pickup in store</button>
+                <button
+                  onClick={() => {
+                    setDeliveryMethod('ship');
+                  }}
+                  className={`px-4 py-2 rounded cursor-pointer border border-red-500 ${deliveryMethod === 'ship' ? 'bg-red-100 text-red-700' : ''}`}
+                >
+                  Ship
+                </button>
+                <button
+                  onClick={() => {
+                    setDeliveryMethod('pickup');
+                    setShippingCost(0);
+                  }}
+                  className={`px-4 py-2 rounded cursor-pointer border border-red-500 ${deliveryMethod === 'pickup' ? 'bg-red-100 text-red-700' : ''}`}
+                >
+                  Pickup in store
+                </button>
               </div>
             </div>
 
@@ -168,27 +187,29 @@ const CheckoutPage = () => {
               <span>Save this information for next time</span>
             </label>
 
-            <div>
-              <h3 className="font-semibold mb-2 text-sm md:text-base">Shipping method</h3>
-              <div className='space-y-2 text-sm'>
-                <label className='flex items-center gap-2'>
-                  <input type="radio" name="shipping" onChange={() => setShippingCost(0)} />
-                  <span>Daerah Istimewa Yogyakarta - Free</span>
-                </label>
-                <label className='flex items-center gap-2'>
-                  <input type="radio" name="shipping" onChange={() => setShippingCost(45000)} />
-                  <span>Jawa Tengah (Semarang) - Rp.45.000</span>
-                </label>
-                <label className='flex items-center gap-2'>
-                  <input type="radio" name="shipping" onChange={() => setShippingCost(45000)} />
-                  <span>Jawa Timur (Surabaya) - Rp.45.000</span>
-                </label>
-                <label className='flex items-center gap-2'>
-                  <input type="radio" name="shipping" onChange={() => setShippingCost(50000)} />
-                  <span>Jawa Barat (Bandung) - Rp.50.000</span>
-                </label>
+            {deliveryMethod === 'ship' && (
+              <div>
+                <h3 className="font-semibold mb-2 text-sm md:text-base">Shipping method</h3>
+                <div className='space-y-2 text-sm'>
+                  <label className='flex items-center gap-2'>
+                    <input type="radio" name="shipping" onChange={() => setShippingCost(0)} />
+                    <span>Daerah Istimewa Yogyakarta - Free</span>
+                  </label>
+                  <label className='flex items-center gap-2'>
+                    <input type="radio" name="shipping" onChange={() => setShippingCost(45000)} />
+                    <span>Jawa Tengah (Semarang) - Rp.45.000</span>
+                  </label>
+                  <label className='flex items-center gap-2'>
+                    <input type="radio" name="shipping" onChange={() => setShippingCost(45000)} />
+                    <span>Jawa Timur (Surabaya) - Rp.45.000</span>
+                  </label>
+                  <label className='flex items-center gap-2'>
+                    <input type="radio" name="shipping" onChange={() => setShippingCost(50000)} />
+                    <span>Jawa Barat (Bandung) - Rp.50.000</span>
+                  </label>
+                </div>
               </div>
-            </div>
+            )}
 
             <div onClick={handleCheckout} className='bg-red-500 text-center text-white py-2 mt-10 hover:bg-red-800 transition duration-300 cursor-pointer rounded-xl'>
               <h1>Pay Now</h1>

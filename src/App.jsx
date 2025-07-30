@@ -14,6 +14,7 @@ import Contact from "./components/Contact";
 import CheckoutPage from "./components/checkoutPage";
 import ProductDescription from "./components/productDescription";
 import Catalogue from "./components/catalogue";
+import Profile from "./components/profile";
 
 function AppContent() {
   const location = useLocation();
@@ -39,6 +40,7 @@ function AppContent() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/checkoutPage" element={<CheckoutPage />} />
           <Route path="/catalogue" element={<Catalogue />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </main>
       {(!hideNavbarFooterLogin && !hideNavbarFooterVerification) && <Footer />}
