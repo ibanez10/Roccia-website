@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "./CartContext";
 
-export default function Card({ title, img, price, slug }) {
+export default function Card({ id, title, img, price, slug }) {
   const navigate = useNavigate();
-  const { addToCart } = useCart(); // ✅ tambahkan ini
   const formattedPrice = price.toLocaleString('id-ID');
 
   const item = { title, img, price, slug };
@@ -26,7 +25,7 @@ export default function Card({ title, img, price, slug }) {
       {/* deskripsi */}
       <div className="flex flex-col justify-center px-4 border-t pt-4 border-gray-400 pb-4">
         <h1
-          onClick={() => navigate(`/product/${slug}`)}
+          onClick={() => navigate(`/product/${id}`)}
           className="font-medium text-lg text-gray-800 hover:underline mb-2 cursor-pointer truncate overflow-hidden whitespace-nowrap"
         >
           {title}
@@ -43,11 +42,11 @@ export default function Card({ title, img, price, slug }) {
 
         <button
           onClick={() => {
-            navigate("/productDescription", { state: item }); 
+            navigate(`/product/${id}`); 
           }}
           className="bg-red-800 text-white text-sm py-2 w-full mt-1 rounded-full hover:bg-red-700 transition duration-300"
         >
-          Add to cart
+          View Detail
         </button>
       </div>
     </div>

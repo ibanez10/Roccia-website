@@ -1,4 +1,3 @@
-// src/pages/ProductDescription.jsx
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useCart } from "../components/CartContext";
@@ -13,14 +12,8 @@ export default function ProductDescription() {
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState(null);
 
-  const BASE_URL = import.meta.env.VITE_BE_BASE_URL
-
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/api/products/${productId}`, {headers: {
-        'Accept': 'application/json',
-        'ngrok-skip-browser-warning': 'true' // Bypass Ngrok warning page
-      }})
+    axios.get(`https://your-api-url.com/api/products/${productId}`)
       .then((res) => {
         const data = res.data.data;
         setProduct(data);
@@ -31,11 +24,11 @@ export default function ProductDescription() {
       .catch((err) => {
         console.error("Failed to fetch product:", err);
       });
-  }, [productId]); // ✅ ganti productId -> slug
+  }, [productId]);
 
   const handleQuantity = (type) => {
-    if (type === "inc") setQuantity((q) => q + 1);
-    if (type === "dec" && quantity > 1) setQuantity((q) => q - 1);
+    if (type === "inc") setQuantity(q => q + 1);
+    if (type === "dec" && quantity > 1) setQuantity(q => q - 1);
   };
 
   const handleAddToCart = () => {
@@ -57,7 +50,7 @@ export default function ProductDescription() {
       <div className="border border-red-500 rounded-xl flex flex-col overflow-hidden">
         <div className="w-full bg-gray-100">
           <img
-            src={product.usage_image}
+            src={product.variants[0]?.image}
             alt={product.name}
             className="w-full max-h-[400px] object-cover rounded-t-xl"
           />
@@ -67,7 +60,7 @@ export default function ProductDescription() {
           {product.variants.map((variant, i) => (
             <img
               key={i}
-              src={variant.image_url}
+              src={variant.image}
               alt={`variant-${i}`}
               className="w-20 h-20 border border-red-500 rounded-md object-cover"
             />
@@ -104,9 +97,7 @@ export default function ProductDescription() {
               onClick={() => setSelectedColor(variant.color.hex)}
               title={variant.color.name}
               className={`w-6 h-6 rounded-full cursor-pointer border-2 transition ${
-                selectedColor === variant.color.hex
-                  ? "border-red-600 scale-110"
-                  : "border-gray-400"
+                selectedColor === variant.color.hex ? "border-red-600 scale-110" : "border-gray-400"
               }`}
               style={{ backgroundColor: variant.color.hex }}
             />
@@ -117,19 +108,9 @@ export default function ProductDescription() {
         <div className="flex items-center gap-4 mb-6">
           <span className="text-sm font-semibold">Quantity</span>
           <div className="flex items-center border border-red-500 rounded-full px-3 py-1">
-            <button
-              onClick={() => handleQuantity("dec")}
-              className="text-red-700 font-bold text-lg px-2"
-            >
-              −
-            </button>
+            <button onClick={() => handleQuantity("dec")} className="text-red-700 font-bold text-lg px-2">−</button>
             <span className="px-3">{quantity}</span>
-            <button
-              onClick={() => handleQuantity("inc")}
-              className="text-red-700 font-bold text-lg px-2"
-            >
-              +
-            </button>
+            <button onClick={() => handleQuantity("inc")} className="text-red-700 font-bold text-lg px-2">+</button>
           </div>
         </div>
 
@@ -155,4 +136,3 @@ export default function ProductDescription() {
     </div>
   );
 }
-

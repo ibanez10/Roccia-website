@@ -1,8 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../api/authContext'; // Perbaiki path
+import { useNavigate } from 'react-router-dom';
+
+// Fungsi untuk membuat nama pengguna acak
+const generateRandomName = () => {
+  const adjectives = ['Sunny', 'Brave', 'Clever', 'Happy', 'Swift'];
+  const nouns = ['Star', 'Wolf', 'Eagle', 'River', 'Cloud'];
+  const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+  const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+  const randomNumber = Math.floor(Math.random() * 100);
+  return `${randomAdjective}${randomNoun}${randomNumber}`;
+};
 
 const Profile = () => {
-  const [name, setName] = useState("M. Detryalviano");
-  const [email] = useState("detryalviano@email.com");
+  const auth = useAuth();
+  const navigate = useNavigate();
+  const { email, logout } = auth || {};
+  const [name, setName] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newName, setNewName] = useState(name);
@@ -23,6 +37,22 @@ const Profile = () => {
       status: "Perlu Verifikasi",
     },
   ]);
+
+  // Cek konteks dan email saat komponen dimuat
+  useEffect(() => {
+    if (!auth) {
+      console.error('AuthContext tidak tersedia. Pastikan Profile.jsx dibungkus oleh AuthProvider.');
+      navigate('/loginPage', { replace: true });
+      return;
+    }
+    if (!email) {
+      console.warn('Email tidak tersedia:', email);
+      navigate('/loginPage', { replace: true });
+    } else {
+      console.log('Email dari useAuth:', email);
+    }
+    setName(generateRandomName());
+  }, [auth, email, navigate]);
 
   const openModal = () => {
     setIsModalVisible(true);
@@ -48,7 +78,7 @@ const Profile = () => {
             hour: '2-digit',
             minute: '2-digit',
             hour12: false
-          }),
+          }) + ' WIB',
           status: "Selesai"
         },
         ...historyData
@@ -58,13 +88,29 @@ const Profile = () => {
   };
 
   const handleLogout = () => {
-    alert("Logout berhasil (simulasi)");
-    // Tambahkan logika logout sesungguhnya di sini
+    if (logout) {
+      logout();
+      console.log('Logout berhasil');
+      navigate('/loginPage', { replace: true });
+    } else {
+      console.error('Fungsi logout tidak tersedia');
+    }
   };
+
+  if (!auth || !email) {
+    return (
+      <div className="flex h-screen font-sans">
+        <div className="w-full flex items-center justify-center">
+          <p className="text-red-600">
+            Error: Anda belum login. Silakan kembali ke halaman login.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
-      
       {/* Sidebar */}
       <aside className="w-full md:w-1/6 bg-gradient-to-b from-red-500 to-gray-200 text-white p-6 space-y-6">
         <div className="flex flex-col items-center text-center">

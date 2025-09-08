@@ -5,25 +5,22 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "../components/Card";
 
-const BASE_URL = import.meta.env.VITE_BE_BASE_URL
-
 export default function CollectionProductDetail() {
   const { collectionId } = useParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(
-          `${BASE_URL}/api/collections/${collectionId}/products`,
+          `/api/collections/${collectionId}/products`,
           {
             params: {
-              price_min: 0,
-              price_max: 99999999,
-              type: "",
-              color: "",
+              price_min: 5000,
+              price_max: 20000,
+              type: "Sofa",
+              color: "red",
             },
           }
         );
@@ -69,12 +66,12 @@ export default function CollectionProductDetail() {
         Menampilkan semua produk dalam koleksi yang dipilih
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => (
           <Card
             key={product.id}
             title={product.name}
-            img={product.image_url}
+            img={product.usage_image}
             price={product.price}
             slug={product.slug}
           />

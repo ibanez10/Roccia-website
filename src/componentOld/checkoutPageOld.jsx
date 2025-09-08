@@ -81,11 +81,11 @@ const CheckoutPage = () => {
                 <div key={item.slug} className='rounded-xl border border-red-600 p-4 md:p-5'>
                   <div className='flex flex-col sm:flex-row'>
                     <div className='w-full sm:w-32 mb-4 sm:mb-0'>
-                      <img src={item.usage_image} alt={item.name} className="w-full rounded-lg" />
+                      <img src={item.img} alt={item.title} className="w-full rounded-lg" />
                     </div>
                     <div className='flex-1 sm:ml-5'>
                       <div className='flex justify-between'>
-                        <h1 className='text-lg md:text-xl font-semibold'>{item.name}</h1>
+                        <h1 className='text-lg md:text-xl font-semibold'>{item.title}</h1>
                         <h1 className='opacity-70 text-sm md:text-base'>Rp.{item.price.toLocaleString('id-ID')}</h1>
                       </div>
                       <h1 className='text-sm mt-2'>Qty:</h1>

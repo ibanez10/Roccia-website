@@ -1,42 +1,28 @@
-// src/pages/ProductDescription.jsx
-import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useCart } from "../components/CartContext";
-import axios from "axios";
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useCart } from "../components/CartContext"; 
 
 export default function ProductDescription() {
-  const { productId } = useParams();
-  const navigate = useNavigate();
-  const { addToCart } = useCart();
-
-  const [product, setProduct] = useState(null);
+  const { state } = useLocation();
+  const product = state || {};
+  const { addToCart } = useCart(); 
   const [quantity, setQuantity] = useState(1);
-  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedColor, setSelectedColor] = useState("bg-green-200");
 
-  const BASE_URL = import.meta.env.VITE_BE_BASE_URL
-
-  useEffect(() => {
-    axios
-      .get(`${BASE_URL}/api/products/${productId}`, {headers: {
-        'Accept': 'application/json',
-        'ngrok-skip-browser-warning': 'true' // Bypass Ngrok warning page
-      }})
-      .then((res) => {
-        const data = res.data.data;
-        setProduct(data);
-        if (data.variants.length > 0) {
-          setSelectedColor(data.variants[0].color.hex);
-        }
-      })
-      .catch((err) => {
-        console.error("Failed to fetch product:", err);
-      });
-  }, [productId]); // ✅ ganti productId -> slug
+  const colors = [
+    "bg-green-200", "bg-white", "bg-gray-400", "bg-red-700",
+    "bg-zinc-800", "bg-black", "bg-pink-200", "bg-orange-200",
+    "bg-yellow-300", "bg-amber-400"
+  ];
 
   const handleQuantity = (type) => {
     if (type === "inc") setQuantity((q) => q + 1);
     if (type === "dec" && quantity > 1) setQuantity((q) => q - 1);
   };
+
+  if (!product.title) {
+    return <p className="text-center py-10">No product data available.</p>;
+  }
 
   const handleAddToCart = () => {
     const item = {
@@ -47,73 +33,64 @@ export default function ProductDescription() {
     addToCart(item);
   };
 
-  if (!product) {
-    return <p className="text-center py-10">Loading product...</p>;
-  }
-
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-      {/* Gambar utama & thumbnail */}
+      {/* Gambar Produk */}
       <div className="border border-red-500 rounded-xl flex flex-col overflow-hidden">
-        <div className="w-full bg-gray-100">
+        <div className=" w-full bg-gray-100">
           <img
-            src={product.usage_image}
-            alt={product.name}
+            src={product.img}
+            alt={product.title}
             className="w-full max-h-[400px] object-cover rounded-t-xl"
           />
         </div>
 
         <div className="flex gap-4 p-4 flex-wrap pt-8">
-          {product.variants.map((variant, i) => (
+          {[1, 2, 3].map((_, i) => (
             <img
               key={i}
-              src={variant.image_url}
-              alt={`variant-${i}`}
+              src={product.img}
+              alt={`thumb${i + 1}`}
               className="w-20 h-20 border border-red-500 rounded-md object-cover"
             />
           ))}
         </div>
       </div>
 
-      {/* Info Produk */}
+      {/* Informasi Produk */}
       <div className="flex flex-col">
         <span className="text-sm text-red-600 font-medium border border-red-600 rounded-full px-3 py-1 w-fit mb-2">
-          {product.type}
+          Table
         </span>
 
-        <h1 className="text-3xl font-semibold text-gray-800 mb-2">
-          {product.name}
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 mb-2">
+          {product.title}
         </h1>
 
-        <p className="text-lg text-gray-700 mb-4">
+        <p className="text-lg sm:text-xl text-gray-700 mb-4">
           Rp {product.price?.toLocaleString("id-ID")}
         </p>
 
         <h2 className="text-md font-semibold text-gray-700 mb-1">Description</h2>
-        <div
-          className="text-sm text-gray-600 mb-6 leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: product.description }}
-        />
+        <p className="text-sm text-gray-600 mb-6 leading-relaxed">
+          Crafted with intention, the {product.title} captures the essence of contemporary
+          living—clean lines, sturdy textures, and a presence that anchors any space with quiet confidence.
+        </p>
 
-        {/* Warna */}
         <h3 className="text-sm font-semibold mb-2">Available Colors</h3>
         <div className="flex flex-wrap gap-2 mb-6">
-          {product.variants.map((variant, index) => (
+          {colors.map((color, index) => (
             <div
               key={index}
-              onClick={() => setSelectedColor(variant.color.hex)}
-              title={variant.color.name}
+              onClick={() => setSelectedColor(color)}
               className={`w-6 h-6 rounded-full cursor-pointer border-2 transition ${
-                selectedColor === variant.color.hex
-                  ? "border-red-600 scale-110"
-                  : "border-gray-400"
-              }`}
-              style={{ backgroundColor: variant.color.hex }}
+                selectedColor === color ? "border-red-600 scale-110" : "border-gray-400"
+              } ${color}`}
             />
           ))}
         </div>
 
-        {/* Jumlah */}
+        {/* Quantity Control */}
         <div className="flex items-center gap-4 mb-6">
           <span className="text-sm font-semibold">Quantity</span>
           <div className="flex items-center border border-red-500 rounded-full px-3 py-1">
@@ -133,7 +110,7 @@ export default function ProductDescription() {
           </div>
         </div>
 
-        {/* Tombol Aksi */}
+        {/* Action Buttons */}
         <div className="flex flex-wrap gap-4">
           <button
             onClick={handleAddToCart}
@@ -141,13 +118,7 @@ export default function ProductDescription() {
           >
             Add to cart
           </button>
-          <button
-            onClick={() => {
-              handleAddToCart();
-              navigate("/checkoutPage");
-            }}
-            className="bg-red-700 text-white font-medium rounded-full px-6 py-2 hover:bg-red-600 transition"
-          >
+          <button className="bg-red-700 text-white font-medium rounded-full px-6 py-2 hover:bg-red-600 transition">
             Buy now
           </button>
         </div>
@@ -155,4 +126,3 @@ export default function ProductDescription() {
     </div>
   );
 }
-

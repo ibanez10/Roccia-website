@@ -50,29 +50,15 @@ export default function collectionPage() {
       {/* Collections from API */}
       <div className="max-w-[1140px] mx-auto space-y-4">
         {loading ? (
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div
-                key={i}
-                className="w-40 h-56 md:w-48 md:h-64 bg-gray-200 rounded-2xl animate-pulse"
-              >
-                <div className="w-full h-32 bg-gray-300 rounded-t-2xl"></div>
-                <div className="p-3 space-y-2">
-                  <div className="h-4 bg-gray-300 rounded"></div>
-                  <div className="h-4 bg-gray-300 rounded w-2/3"></div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <p className="text-center">Memuat koleksi...</p>
         ) : (
           <div className="flex flex-wrap justify-center gap-4 md:gap-6">
             {collections.map((item, index) => (
               <Card
-                key={item.id || index}
-                id={item.id}
+                key={item.id}
                 title={item.name}
-                slug={item.slug}  
-                img={item.image_url}
+                slug={item.slug}
+                img={`https://res.cloudinary.com/dpswqafiq/image/upload/v1752243359/sample.jpg`}
               />
             ))}
           </div>
@@ -82,14 +68,14 @@ export default function collectionPage() {
   );
 }
 
-function Card({ id, title, slug, img }) {
+function Card({ title, slug, img }) {
   const navigate = useNavigate();
 
   return (
     <div className="w-full md:w-[260px] h-[240px] md:h-[320px] rounded-[20px] overflow-hidden shadow-sm hover:shadow-lg transition hover:scale-105 duration-300 relative">
       <img src={img} alt={title} className="w-full h-full object-cover" />
       <button
-        onClick={() => navigate(`/collection/${id}/products`)}
+        onClick={() => navigate(`/product/${slug}`)}
         className="absolute bottom-4 left-4 right-4 bg-white/30 hover:bg-white/80 duration-500 backdrop-blur-sm rounded-full px-4 py-2 flex items-center justify-between"
       >
         <span className="text-xs md:text-sm font-medium text-gray-800 truncate">{title}</span>
