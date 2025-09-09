@@ -1,7 +1,6 @@
-// src/api/ordersApi.js
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_BE_BASE_URL
+const BASE_URL = import.meta.env.VITE_BE_BASE_URL;
 
 // ===== GET ALL ORDERS =====
 export const getOrders = async (params = {}) => {
@@ -15,18 +14,30 @@ export const getOrders = async (params = {}) => {
 };
 
 // ===== GET USER ORDERS =====
-export const getUserOrders = async (token, params = {}) => {
+export const getUserOrders = async (token, userId) => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/users/orders`, {
+    const url = `${BASE_URL}/api/users/orders/${userId}`;
+    console.log("Fetching orders from:", url);
+
+    const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      params,
     });
-    return response.data;
+
+    // pastikan selalu return array
+    if (response.data && Array.isArray(response.data)) {
+      return response.data;
+    }
+
+    if (response.data && Array.isArray(response.data.data)) {
+      return response.data.data;
+    }
+
+    return [];
   } catch (error) {
-    console.error("Error fetching user orders:", error);
-    throw error;
+    console.error("Error fetching user orders:", error.response?.data || error);
+    return []; // fallback agar frontend tidak error
   }
 };
 
